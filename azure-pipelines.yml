@@ -3,6 +3,7 @@ pool:
   demands:
     - npm
 
+<<<<<<< HEAD
 trigger:
   branches:
     include:
@@ -16,19 +17,33 @@ variables:
   wwwrootdir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '2.1.505'
   dummyVariable: 'helloThere'
+=======
+variables:
+  buildConfiguration: 'Release'
+  wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+  dotnetSdkVersion: '2.1.505'
+>>>>>>> unit-tests
 
 steps:
 - task: DotNetCoreInstaller@0
   displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
   inputs:
+<<<<<<< HEAD
     version: $(dotnetSdkVersion)
+=======
+    version: '$(dotnetSdkVersion)'
+>>>>>>> unit-tests
 
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
     verbose: false
 
+<<<<<<< HEAD
 - script: './node_modules/.bin/node-sass $(wwwrootdir) --output $(wwwrootdir)'
+=======
+- script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
+>>>>>>> unit-tests
   displayName: 'Compile Sass assets'
 
 - task: gulp@1
@@ -36,7 +51,11 @@ steps:
 
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
+<<<<<<< HEAD
   workingDirectory: $(wwwrootdir)
+=======
+  workingDirectory: $(wwwrootDir)
+>>>>>>> unit-tests
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
@@ -44,6 +63,7 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
+<<<<<<< HEAD
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Debug'
@@ -51,6 +71,31 @@ steps:
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
+=======
+- task: DotNetCoreCLI@2
+  displayName: 'Build the project - $(buildConfiguration)'
+  inputs:
+    command: 'build'
+    arguments: '--no-restore --configuration $(buildConfiguration)'
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests - $(buildConfiguration)'
+  inputs:
+    command: 'test'
+    arguments: '--no-build --configuration $(buildConfiguration)'
+    publishTestResults: true
+    projects: '**/*.Tests.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish the project - $(buildConfiguration)'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    publishWebProjects: false
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+    zipAfterPublish: true
+>>>>>>> unit-tests
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
