@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/hfvanroon/pace%20Game%20-%20web%20-%20Pipeline/_apis/build/status/vanroon.mslearn-tailspin-spacegame-web?branchName=master)](https://dev.azure.com/hfvanroon/pace%20Game%20-%20web%20-%20Pipeline/_build/latest?definitionId=7&branchName=master)
 
 # Contributing
 
